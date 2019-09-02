@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzz.mapper.TbSellOrderMapper">
+  <resultMap id="BaseResultMap" type="com.zzz.pojo.TbSellOrder">
+    <id column="oid" jdbcType="BIGINT" property="oid" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="deli_date" jdbcType="TIMESTAMP" property="deliDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="tamt" jdbcType="DECIMAL" property="tamt" />
+    <result column="atamt" jdbcType="DECIMAL" property="atamt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    oid, cust_name, order_date, deli_date, order_status, note, status, tamt, atamt
+  </sql>
+  <select id="selectByExample" parameterType="com.zzz.pojo.TbSellOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_sell_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sell_order
+    where oid = #{oid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_sell_order
+    where oid = #{oid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zzz.pojo.TbSellOrderExample">
+    delete from tb_sell_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zzz.pojo.TbSellOrder">
+      <selectKey order="AFTER" keyProperty="oid" resultType="long">
+          SELECT LAST_INSERT_ID()
+      </selectKey>
+    insert into tb_sell_order (oid, cust_name, order_date, 
+      deli_date, order_status, note, 
+      status, tamt, atamt
+      )
+    values (#{oid,jdbcType=BIGINT}, #{custName,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP}, 
+      #{deliDate,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{tamt,jdbcType=DECIMAL}, #{atamt,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzz.pojo.TbSellOrder">
+      <selectKey order="AFTER" keyProperty="oid" resultType="long">
+          SELECT LAST_INSERT_ID()
+      </selectKey>
+    insert into tb_sell_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="custName != null">
+        cust_name,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="deliDate != null">
+        deli_date,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="tamt != null">
+        tamt,
+      </if>
+      <if test="atamt != null">
+        atamt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        #{oid,jdbcType=BIGINT},
+      </if>
+      <if test="custName != null">
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliDate != null">
+        #{deliDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="tamt != null">
+        #{tamt,jdbcType=DECIMAL},
+      </if>
+      <if test="atamt != null">
+        #{atamt,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zzz.pojo.TbSellOrderExample" resultType="java.lang.Long">
+    select count(*) from tb_sell_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_sell_order
+    <set>
+      <if test="record.oid != null">
+        oid = #{record.oid,jdbcType=BIGINT},
+      </if>
+      <if test="record.custName != null">
+        cust_name = #{record.custName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderDate != null">
+        order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliDate != null">
+        deli_date = #{record.deliDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tamt != null">
+        tamt = #{record.tamt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.atamt != null">
+        atamt = #{record.atamt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_sell_order
+    set oid = #{record.oid,jdbcType=BIGINT},
+      cust_name = #{record.custName,jdbcType=VARCHAR},
+      order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      deli_date = #{record.deliDate,jdbcType=TIMESTAMP},
+      order_status = #{record.orderStatus,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      tamt = #{record.tamt,jdbcType=DECIMAL},
+      atamt = #{record.atamt,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zzz.pojo.TbSellOrder">
+    update tb_sell_order
+    <set>
+      <if test="custName != null">
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliDate != null">
+        deli_date = #{deliDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="tamt != null">
+        tamt = #{tamt,jdbcType=DECIMAL},
+      </if>
+      <if test="atamt != null">
+        atamt = #{atamt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zzz.pojo.TbSellOrder">
+    update tb_sell_order
+    set cust_name = #{custName,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      deli_date = #{deliDate,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      tamt = #{tamt,jdbcType=DECIMAL},
+      atamt = #{atamt,jdbcType=DECIMAL}
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+  <update id="updateSellTamt" parameterType="java.lang.Long">
+    update tb_sell_order a
+    left join (select #{oid,jdbcType=BIGINT} as oid, sum(tamt) as tamt 
+        from tb_actual_order where oid = #{oid, jdbcType=BIGINT}) b 
+    on a.oid = b.oid
+    set a.tamt = b.tamt
+    where a.oid = #{oid, jdbcType=BIGINT}
+  </update>
+  <update id="updateSellAtamt" parameterType="java.lang.Long">
+    update tb_sell_order a
+    left join (select #{oid,jdbcType=BIGINT} as oid, sum(atamt) as atamt 
+        from tb_actual_order where oid = #{oid, jdbcType=BIGINT}) b 
+    on a.oid = b.oid
+    set a.atamt = b.atamt
+    where a.oid = #{oid, jdbcType=BIGINT}
+  </update>
+</mapper>
